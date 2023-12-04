@@ -13,9 +13,6 @@ inputs:
     description: Version of Neosync CLI to install
     required: false
     default: latest
-  api_key:
-    description: API Key used for accessing Neosync
-    required: false
 
 # Define your outputs here.
 # outputs:
