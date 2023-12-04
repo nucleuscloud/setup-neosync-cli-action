@@ -1,8 +1,8 @@
-import * as core from '@actions/core';
-import * as httpm from '@actions/http-client';
-import os from 'os';
+import * as core from '@actions/core'
+import * as httpm from '@actions/http-client'
+import os from 'os'
 
-const REPO_BASE_URL = "https://github.com/nucleuscloud/neosync";
+const REPO_BASE_URL = 'https://github.com/nucleuscloud/neosync'
 
 // arch in [arm, x32, x64...] (https://nodejs.org/api/os.html#os_os_arch)
 // return value in [amd64, 386, arm]
@@ -37,7 +37,6 @@ function getUrl(version: string): string {
   return `${REPO_BASE_URL}/releases/download/v${version}/${filename}.${extension}`
 }
 
-
 export async function getDownloadUrl(version?: string): Promise<string> {
   if (!!version && version !== 'latest') {
     core.info(`Downloading Neosync CLI version ${version}`)
@@ -45,20 +44,18 @@ export async function getDownloadUrl(version?: string): Promise<string> {
   }
   const latestVersion = await getLatestVersion()
   core.info(`Downloading latest Neosync CLI version ${latestVersion}.`)
-  return getUrl(latestVersion);
+  return getUrl(latestVersion)
 }
 
 async function getLatestVersion(): Promise<string> {
-    try {
+  try {
     const httpClient = new httpm.HttpClient('neosync-gh-action', [], {
       headers: {
         Accept: 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28'
       }
     })
-    const res = await httpClient.get(
-      `${REPO_BASE_URL}/releases?per_page=1`
-    )
+    const res = await httpClient.get(`${REPO_BASE_URL}/releases?per_page=1`)
     const body: string = await res.readBody()
     const releases: GithubReleaseResponse[] = JSON.parse(body)
     const latestRelease = releases[0]
@@ -67,7 +64,7 @@ async function getLatestVersion(): Promise<string> {
       core.setFailed('Failed to retrieve latest release')
     }
 
-    return latestVersion.replace('v', '');
+    return latestVersion.replace('v', '')
   } catch (err) {
     core.setFailed('Failed to resolve latest Neosync CLI version')
     throw err

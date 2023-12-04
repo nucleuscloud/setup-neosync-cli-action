@@ -1,11 +1,11 @@
-import * as core from '@actions/core';
+import * as core from '@actions/core'
 
 export interface Input {
-  version?: string;
+  version?: string
 }
 
 export function getInput(): Input {
   return {
-    version: core.getInput('version'),
+    version: core.getInput('version')
   }
 }
