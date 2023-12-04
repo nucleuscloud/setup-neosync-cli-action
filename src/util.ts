@@ -2,8 +2,6 @@ import * as core from '@actions/core'
 import * as httpm from '@actions/http-client'
 import os from 'os'
 
-const REPO_BASE_URL = 'https://github.com/nucleuscloud/neosync'
-
 // arch in [arm, x32, x64...] (https://nodejs.org/api/os.html#os_os_arch)
 // return value in [amd64, 386, arm]
 function mapArch(arch: string): string {
@@ -34,7 +32,7 @@ function getUrl(version: string): string {
   const arch = mapArch(os.arch())
   const filename = `neosync_${version}_${ops}_${arch}`
   const extension = 'tar.gz'
-  return `${REPO_BASE_URL}/releases/download/v${version}/${filename}.${extension}`
+  return `https://github.com/nucleuscloud/neosync/releases/download/v${version}/${filename}.${extension}`
 }
 
 export async function getDownloadUrl(version?: string): Promise<string> {
@@ -55,7 +53,9 @@ async function getLatestVersion(): Promise<string> {
         'X-GitHub-Api-Version': '2022-11-28'
       }
     })
-    const res = await httpClient.get(`${REPO_BASE_URL}/releases?per_page=1`)
+    const res = await httpClient.get(
+      `https://api.github.com/repos/nucleuscloud/neosync/releases?per_page=1`
+    )
     const body: string = await res.readBody()
     const releases: GithubReleaseResponse[] = JSON.parse(body)
     const latestRelease = releases[0]
