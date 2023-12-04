@@ -30,9 +30,11 @@ interface GithubReleaseResponse {
 function getUrl(version: string): string {
   const ops = mapOS(os.platform())
   const arch = mapArch(os.arch())
-  const filename = `neosync_${version}_${ops}_${arch}`
+  const filename = `neosync_${stripLeadingV(version)}_${ops}_${arch}`
   const extension = 'tar.gz'
-  return `https://github.com/nucleuscloud/neosync/releases/download/v${version}/${filename}.${extension}`
+  return `https://github.com/nucleuscloud/neosync/releases/download/v${stripLeadingV(
+    version
+  )}/${filename}.${extension}`
 }
 
 export async function getDownloadUrl(version?: string): Promise<string> {
@@ -43,6 +45,10 @@ export async function getDownloadUrl(version?: string): Promise<string> {
   const latestVersion = await getLatestVersion()
   core.info(`Downloading latest Neosync CLI version ${latestVersion}.`)
   return getUrl(latestVersion)
+}
+
+function stripLeadingV(version: string): string {
+  return version.replace(/^v/, '')
 }
 
 async function getLatestVersion(): Promise<string> {
@@ -64,7 +70,7 @@ async function getLatestVersion(): Promise<string> {
       core.setFailed('Failed to retrieve latest release')
     }
 
-    return latestVersion.replace('v', '')
+    return latestVersion
   } catch (err) {
     core.setFailed('Failed to resolve latest Neosync CLI version')
     throw err

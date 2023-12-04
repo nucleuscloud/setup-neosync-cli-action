@@ -28728,9 +28728,9 @@ function mapOS(ops) {
 function getUrl(version) {
     const ops = mapOS(os_1.default.platform());
     const arch = mapArch(os_1.default.arch());
-    const filename = `neosync_${version}_${ops}_${arch}`;
+    const filename = `neosync_${stripLeadingV(version)}_${ops}_${arch}`;
     const extension = 'tar.gz';
-    return `https://github.com/nucleuscloud/neosync/releases/download/v${version}/${filename}.${extension}`;
+    return `https://github.com/nucleuscloud/neosync/releases/download/v${stripLeadingV(version)}/${filename}.${extension}`;
 }
 async function getDownloadUrl(version) {
     if (!!version && version !== 'latest') {
@@ -28742,6 +28742,9 @@ async function getDownloadUrl(version) {
     return getUrl(latestVersion);
 }
 exports.getDownloadUrl = getDownloadUrl;
+function stripLeadingV(version) {
+    return version.replace(/^v/, '');
+}
 async function getLatestVersion() {
     try {
         const httpClient = new httpm.HttpClient('neosync-gh-action', [], {
@@ -28758,7 +28761,7 @@ async function getLatestVersion() {
         if (!latestVersion) {
             core.setFailed('Failed to retrieve latest release');
         }
-        return latestVersion.replace('v', '');
+        return latestVersion;
     }
     catch (err) {
         core.setFailed('Failed to resolve latest Neosync CLI version');
