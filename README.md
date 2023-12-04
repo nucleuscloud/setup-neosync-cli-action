@@ -17,6 +17,7 @@ After you've used the action, subsequent steps in the same job can run Nucleus c
 ### Neosync CLI
 
 #### Download the latest Neosync CLI
+
 ```yaml
 name: ci
 
@@ -56,6 +57,7 @@ jobs:
 ```
 
 #### Provide a Neosync API Key
+
 ```yaml
 name: ci
 
@@ -82,7 +84,6 @@ jobs:
 | Name      | Type   | Default | Required | Description         |
 | --------- | ------ | ------- | -------- | ------------------- |
 | `version` | String | latest  | false    | Neosync CLI version |
-
 
 ## Publishing a new release
 
