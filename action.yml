@@ -3,7 +3,7 @@ description: 'Setup Neosync CLI on Github Action runners'
 author: 'nucleuscloud'
 
 branding:
-  icon: 'rocket'
+  icon: 'play'
   color: 'purple'
 
 inputs:
