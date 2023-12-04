@@ -1,20 +1,21 @@
 {
-  "name": "typescript-action",
-  "description": "GitHub Actions TypeScript template",
+  "name": "setup-neosync-cli-action",
+  "description": "Github Action to setup Neosync CLI",
   "version": "0.0.0",
   "author": "",
   "private": true,
-  "homepage": "https://github.com/actions/typescript-action",
+  "homepage": "https://github.com/nucleuscloud/setup-neosync-cli-action",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/nucleuscloud/setup-neosync-cli-action.git"
   },
   "bugs": {
-    "url": "https://github.com/actions/typescript-action/issues"
+    "url": "https://github.com/nucleuscloud/setup-neosync-cli-action/issues"
   },
   "keywords": [
     "actions",
-    "node",
+    "neosync",
+    "cli",
     "setup"
   ],
   "exports": {
