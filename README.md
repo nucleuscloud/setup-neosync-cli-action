@@ -6,11 +6,11 @@
 [![CodeQL](https://github.com/nucleuscloud/setup-neosync-cli-action/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/nucleuscloud/setup-neosync-cli-action/actions/workflows/codeql-analysis.yml)
 [![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
 
-The `nucleuscloud/setup-neosync-cli-action` is a Typescript action that sets up Neosync CLI in your GitHub Actions workflow.
+The `nucleuscloud/setup-neosync-cli-action` is a TypeScript action that sets up Neosync CLI in your GitHub Actions workflow.
 
 - Downloads a specific version of Neosync CLI and adds it to the `PATH`.
 
-After you've used the action, subsequent steps in the same job can run Nucleus commands using [the GitHub Actions `run` syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun). This allows Neosync commands to work like they do on your local command line.
+After you've used the action, subsequent steps in the same job can run Nucleus commands using [the GitHub Actions `run` syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun). This allows Neosync commands to work like they do on your local command-line.
 
 ## Usage
 
