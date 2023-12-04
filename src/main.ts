@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import { downloadTool, extractTar } from '@actions/tool-cache'
+import * as tc from '@actions/tool-cache'
 import { getInput } from './inputs'
 import { getDownloadUrl } from './util'
 
@@ -12,17 +12,23 @@ export async function run(): Promise<void> {
     const inputs = getInput()
 
     // Download the specific version of the tool
-    const pathToTarball = await downloadTool(
+    const pathToTarball = await tc.downloadTool(
       await getDownloadUrl(inputs.version)
     )
 
     // Extract the tarball onto the runner
-    const pathToCli = await extractTar(pathToTarball)
+    const pathToCli = await tc.extractTar(pathToTarball)
 
     // Expose the tool by adding it to the PATH
     core.addPath(pathToCli)
   } catch (error) {
     // Fail the workflow run if an error occurs
-    if (error instanceof Error) core.setFailed(error.message)
+    if (error instanceof Error) {
+      core.setFailed(error.message)
+    } else if (typeof error === 'string') {
+      core.setFailed(error)
+    } else {
+      core.setFailed(`unknown error: ${error}`)
+    }
   }
 }
