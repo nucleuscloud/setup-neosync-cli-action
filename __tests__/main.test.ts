@@ -7,83 +7,76 @@
  */
 
 import * as core from '@actions/core'
+import * as tc from '@actions/tool-cache'
+import os from 'os'
 import * as main from '../src/main'
 
-// Mock the action's main function
+// // Mock the action's main function
 const runMock = jest.spyOn(main, 'run')
 
-// Other utilities
-const timeRegex = /^\d{2}:\d{2}:\d{2}/
+jest.mock('os')
 
-// Mock the GitHub Actions core library
-let debugMock: jest.SpyInstance
 let errorMock: jest.SpyInstance
 let getInputMock: jest.SpyInstance
-let setFailedMock: jest.SpyInstance
-let setOutputMock: jest.SpyInstance
+let addPathMock: jest.SpyInstance
+let downloadToolMock: jest.SpyInstance
+let extractTarMock: jest.SpyInstance
 
 describe('action', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
-    debugMock = jest.spyOn(core, 'debug').mockImplementation()
-    errorMock = jest.spyOn(core, 'error').mockImplementation()
     getInputMock = jest.spyOn(core, 'getInput').mockImplementation()
-    setFailedMock = jest.spyOn(core, 'setFailed').mockImplementation()
-    setOutputMock = jest.spyOn(core, 'setOutput').mockImplementation()
+    addPathMock = jest.spyOn(core, 'addPath').mockImplementation()
+    errorMock = jest.spyOn(core, 'setFailed').mockImplementation()
+    downloadToolMock = jest.spyOn(tc, 'downloadTool').mockImplementation()
+    extractTarMock = jest.spyOn(tc, 'extractTar').mockImplementation()
+
+    os.platform = jest.fn().mockReturnValue('linux')
+    os.arch = jest.fn().mockReturnValue('amd64')
   })
 
-  it('sets the time output', async () => {
+  it('sets the version output', async () => {
     // Set the action's inputs as return values from core.getInput()
     getInputMock.mockImplementation((name: string): string => {
       switch (name) {
-        case 'milliseconds':
-          return '500'
+        case 'version':
+          return 'v0.0.18'
         default:
           return ''
       }
     })
 
-    await main.run()
-    expect(runMock).toHaveReturned()
-
-    // Verify that all of the core library functions were called correctly
-    expect(debugMock).toHaveBeenNthCalledWith(1, 'Waiting 500 milliseconds ...')
-    expect(debugMock).toHaveBeenNthCalledWith(
-      2,
-      expect.stringMatching(timeRegex)
-    )
-    expect(debugMock).toHaveBeenNthCalledWith(
-      3,
-      expect.stringMatching(timeRegex)
-    )
-    expect(setOutputMock).toHaveBeenNthCalledWith(
-      1,
-      'time',
-      expect.stringMatching(timeRegex)
-    )
-    expect(errorMock).not.toHaveBeenCalled()
-  })
-
-  it('sets a failed status', async () => {
-    // Set the action's inputs as return values from core.getInput()
-    getInputMock.mockImplementation((name: string): string => {
-      switch (name) {
-        case 'milliseconds':
-          return 'this is not a number'
+    downloadToolMock.mockImplementation((dlUrl: string): string => {
+      switch (dlUrl) {
+        case 'https://github.com/nucleuscloud/neosync/releases/download/v0.0.18/neosync_0.0.18_linux_amd64.tar.gz':
+          return 'fake-tar-path'
         default:
           return ''
+      }
+    })
+    extractTarMock.mockImplementation((tarPath: string): string => {
+      switch (tarPath) {
+        case 'fake-tar-path':
+          return '/path/to/tarball'
+        default:
+          return ''
+      }
+    })
+    addPathMock.mockImplementation((cliPath: string): void => {
+      switch (cliPath) {
+        case '/path/to/tarball':
+          return
+        default:
+          throw new Error('test: invalid cli path')
       }
     })
 
     await main.run()
     expect(runMock).toHaveReturned()
-
-    // Verify that all of the core library functions were called correctly
-    expect(setFailedMock).toHaveBeenNthCalledWith(
-      1,
-      'milliseconds not a number'
-    )
     expect(errorMock).not.toHaveBeenCalled()
+    expect(downloadToolMock).toHaveBeenCalled()
+    expect(extractTarMock).toHaveBeenCalled()
+    expect(addPathMock).toHaveBeenCalled()
   })
 })
