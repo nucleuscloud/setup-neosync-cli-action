@@ -2,22 +2,15 @@ name: 'Setup Neosync CLI'
 description: 'Setup Neosync CLI on Github Action runners'
 author: 'nucleuscloud'
 
-# Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
   icon: 'rocket'
   color: 'purple'
 
-# Define your inputs here.
 inputs:
   version:
     description: Version of Neosync CLI to install
     required: false
     default: latest
-
-# Define your outputs here.
-# outputs:
-#   time:
-#     description: 'Your output description here'
 
 runs:
   using: node20
