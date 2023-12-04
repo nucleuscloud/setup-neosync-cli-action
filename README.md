@@ -36,6 +36,8 @@ jobs:
         uses: nucleuscloud/setup-neosync-cli-action@v1
       - name: Whoami
         run: neosync whoami
+        env:
+          NEOSYNC_API_URL: <url>
 ```
 
 #### Download Neosync CLI at a specific version
@@ -57,6 +59,8 @@ jobs:
           version: v0.0.18
       - name: Whoami
         run: neosync whoami
+        env:
+          NEOSYNC_API_URL: <url>
 ```
 
 #### Provide a Neosync API Key
@@ -77,6 +81,7 @@ jobs:
       - name: Whoami
         run: neosync whoami
         env:
+          NEOSYNC_API_URL: <url>
           NEOSYNC_API_KEY: ${{ secrets.NEOSYNC_API_KEY }}
 ```
 
