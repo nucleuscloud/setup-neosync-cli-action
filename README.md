@@ -11,8 +11,9 @@ Neosync CLI in your GitHub Actions workflow.
 
 - Downloads a specific version of Neosync CLI and adds it to the `PATH`.
 
-After you've used the action, subsequent steps in the same job
-can run Nucleus commands using [the GitHub Actions `run` syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun).
+After you've used the action, subsequent steps in the same job can run Nucleus
+commands using
+[the GitHub Actions `run` syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun).
 This allows Neosync commands to work like they do on your local command-line.
 
 ## Usage

@@ -2,6 +2,8 @@ name: Continuous Integration
 
 on:
   pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
@@ -51,7 +53,7 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
 
-      - name: Test Local Action with Latest version
+      - name: Test Local Action
         id: test-action-latest
         uses: ./
         with:
@@ -61,4 +63,4 @@ jobs:
         id: test-action-specific
         uses: ./
         with:
-          version: v0.0.18
+          version: v0.5.14

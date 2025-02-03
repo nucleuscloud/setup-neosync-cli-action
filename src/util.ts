@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as httpm from '@actions/http-client'
-import os from 'os'
+import * as os from 'os'
 
 // arch in [arm, x32, x64...] (https://nodejs.org/api/os.html#os_os_arch)
 // return value in [amd64, 386, arm]
