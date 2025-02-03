@@ -59,6 +59,8 @@ jobs:
         with:
           version: latest
 
-      - name: Print Output
-        id: output
-        run: echo "${{ steps.test-action.outputs.time }}"
+      - name: Test Local Action with specific version
+        id: test-action-specific
+        uses: ./
+        with:
+          version: v0.5.14
