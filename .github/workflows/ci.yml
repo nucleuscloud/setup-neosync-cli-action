@@ -2,6 +2,8 @@ name: Continuous Integration
 
 on:
   pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
@@ -51,14 +53,12 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
 
-      - name: Test Local Action with Latest version
-        id: test-action-latest
+      - name: Test Local Action
+        id: test-action
         uses: ./
         with:
-          version: latest
+          milliseconds: 2000
 
-      - name: Test Local Action with specific version
-        id: test-action-specific
-        uses: ./
-        with:
-          version: v0.0.18
+      - name: Print Output
+        id: output
+        run: echo "${{ steps.test-action.outputs.time }}"
