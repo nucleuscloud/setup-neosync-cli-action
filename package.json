@@ -1,7 +1,7 @@
 {
   "name": "setup-neosync-cli-action",
   "description": "Github Action to setup Neosync CLI",
-  "version": "0.0.0",
+  "version": "1.2.0",
   "author": "",
   "private": true,
   "type": "module",
