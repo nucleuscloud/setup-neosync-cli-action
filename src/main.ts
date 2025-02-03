@@ -1,7 +1,6 @@
 import * as core from '@actions/core'
 import * as tc from '@actions/tool-cache'
-import { getInput } from './inputs'
-import { getDownloadUrl } from './util'
+import { getDownloadUrl } from './util.js'
 
 /**
  * The main function for the action.
@@ -9,12 +8,9 @@ import { getDownloadUrl } from './util'
  */
 export async function run(): Promise<void> {
   try {
-    const inputs = getInput()
-
+    const version = core.getInput('version')
     // Download the specific version of the tool
-    const pathToTarball = await tc.downloadTool(
-      await getDownloadUrl(inputs.version)
-    )
+    const pathToTarball = await tc.downloadTool(await getDownloadUrl(version))
 
     // Extract the tarball onto the runner
     const pathToCli = await tc.extractTar(pathToTarball)
